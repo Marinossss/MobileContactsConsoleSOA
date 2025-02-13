@@ -25,7 +25,7 @@ public class Main {
             handleChoice(choice);
         }
 
-        System.out.println("Thank you for using Mobile Contacts App");
+        System.out.println("Thank you for using the Mobile Contacts App!");
     }
 
     public static void handleChoice(String choice) {
@@ -37,7 +37,7 @@ public class Main {
 
         switch (choice) {
             case "1":
-                System.out.println("Παρακαλώ εισάγετε Όνομα, Επώνυμο, Αρ. Τηλεφώνου");
+                System.out.println("Please enter First Name, Last Name, Phone Number:");
                 firstname = getToken();
                 lastname = getToken();
                 phoneNumber = getToken();
@@ -45,80 +45,79 @@ public class Main {
                 response = controller.insertContact(insertDTO);
 
                 if (response.startsWith("OK")) {
-                    System.out.println("Επιτυχής Εισαγωγή");
+                    System.out.println("Contact successfully added!");
                     System.out.println(response.substring(3));
                 } else {
-                    System.out.println("Ανεπιτυχής Εισαγωγή");
+                    System.out.println("Failed to add contact.");
                     System.out.println(response.substring(7));
                 }
                 break;
             case "2":
-                System.out.println("Εισάγετε Αριθμό Τηλεφώνου");
+                System.out.println("Enter Phone Number:");
                 phoneNumber = getToken();
                 response = controller.getContactByPhoneNumber(phoneNumber);
                 if (response.startsWith("Error")) {
-                    System.out.println("Η επαφή δεν βρέθηκε.");
+                    System.out.println("Contact not found.");
                     System.out.println(response.substring(3));
                     return;
                 }
-                System.out.println("Ανεπιτυχής Εισαγωγή");
+                System.out.println("Failed to update contact.");
                 System.out.println(response.substring(6));
-                System.out.println("Εισάγετε το υπάρχον ID");
+                System.out.println("Enter existing ID:");
                 long oldId = Long.parseLong(getToken());
-                System.out.println("Παρακαλώ εισάγετε νέο όνομα");
+                System.out.println("Please enter new first name:");
                 firstname = getToken();
-                System.out.println("Παρακαλώ εισάγετε νέο επώνυμο");
+                System.out.println("Please enter new last name:");
                 lastname = getToken();
-                System.out.println("Παρακαλώ εισάγετε νέο τηλεφωνικό αριθμό");
+                System.out.println("Please enter new phone number:");
                 phoneNumber = getToken();
                 MobileContactUpdateDTO mobileContactUpdateDTO = new MobileContactUpdateDTO(oldId, firstname, lastname, phoneNumber);
                 response = controller.updateContact(mobileContactUpdateDTO);
                 System.out.println(response);
                 break;
             case "3":
-                System.out.println("Εισάγετε Κωδικό Επαφής");
+                System.out.println("Enter Contact ID:");
                 id = Long.parseLong(getToken());
                 response = controller.deleteContactById(id);
                 if (response.startsWith("OK")) {
-                    System.out.println("Επιτυχής Διαγραφή");
+                    System.out.println("Contact successfully deleted!");
                     System.out.println(response.substring(3));
                 } else {
-                    System.out.println("Ανεπιτυχής Διαγραφή");
+                    System.out.println("Failed to delete contact.");
                     System.out.println(response.substring(6));
                 }
                 break;
             case "4":
-                System.out.println("Εισάγετε Κωδικό Επαφής");
-                id =  Long.parseLong(getToken());
+                System.out.println("Enter Contact ID:");
+                id = Long.parseLong(getToken());
                 response = controller.getContactById(id);
                 if (response.startsWith("OK")) {
-                    System.out.println("Επιτυχής Αναζήτηση");
+                    System.out.println("Contact found successfully!");
                     System.out.println(response.substring(3));
                 } else {
-                    System.out.println("Ανεπιτυχής Αναζήτηση");
+                    System.out.println("Failed to find contact.");
                     System.out.println(response.substring(6));
                 }
                 break;
             case "5":
-                List<String > mobileContacts = controller.getAllContacts();
-                if (mobileContacts.isEmpty()) System.out.println("Κενή λίστα επαφών");
+                List<String> mobileContacts = controller.getAllContacts();
+                if (mobileContacts.isEmpty()) System.out.println("Contact list is empty.");
                 mobileContacts.forEach(System.out::println);
                 break;
             default:
-                System.out.println("Λάθος επιλογή");
+                System.out.println("Invalid choice.");
                 break;
         }
-
     }
 
     public static void printMenu() {
-        System.out.println("Επιλέξτε ένα από τα παρακάτω:");
-        System.out.println("1. Εισαγωγή επαφής");
-        System.out.println("2. Ενημέρωση επαφής");
-        System.out.println("3. Διαγραφή επαφής");
-        System.out.println("4. Αναζήτηση επαφής");
-        System.out.println("5. Προβολή επαφών");
-        System.out.println("Q/q. Έξοδος");
+        System.out.println("Please choose one of the following options:");
+        System.out.println("1. Add a new contact");
+        System.out.println("2. Update an existing contact");
+        System.out.println("3. Delete a contact");
+        System.out.println("4. Search for a contact");
+        System.out.println("5. View all contacts");
+        System.out.println("Q/q. Exit");
     }
 
     public static String getToken() {
